@@ -1,8 +1,9 @@
 #include <wx/wx.h>
 #include "GUIMyFrame1.h"
 
-class MyApp : public wxApp {
 
+class MyApp : public wxApp {
+    wxFrame* frame;
 public:
 
 	virtual bool OnInit();
@@ -14,9 +15,12 @@ IMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-	wxFrame* mainFrame = new GUIMyFrame1(NULL);
+	//support all available image formats
+	wxInitAllImageHandlers();
+
+	GUIMyFrame1* mainFrame = new GUIMyFrame1(NULL);
 	mainFrame->Show(true);
 	SetTopWindow(mainFrame);
-
 	return true;
+
 }
