@@ -24,8 +24,6 @@ void GUIMyFrame1::repaint()
 	wxClientDC dc(m_panel1);
 	if (m_myImage)
 		free(m_myImage);
-	if (m_imageRGB)
-		delete m_imageRGB;
 	dc.Clear();
 	imagesPosition.clear();
 	m_fullImagesWidth = 50;
@@ -38,35 +36,25 @@ void GUIMyFrame1::repaint()
 		for (int i = 0; i < file_count; i++)
 		{
 			m_imageRGB = new wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1); // ANY => can load many image formats
-			m_imageBitmap = wxBitmap(*m_imageRGB, -1); // ...to get the corresponding bitmap
-
+			
 			m_imageRGB->Rescale(240, 180, wxIMAGE_QUALITY_NORMAL);
 			m_imageWidth = m_imageRGB->GetWidth();
 			m_imageHeight = m_imageRGB->GetHeight();
 
-			m_myImage = (unsigned char*)malloc(m_imageWidth * m_imageHeight * 3);
-			memcpy(m_myImage, m_imageRGB->GetData(), m_imageWidth * m_imageHeight * 3);
+			wxBitmap m_imageBitmap(*m_imageRGB,-1); // ...to get the corresponding bitmap
 
-
-			if (m_myImage)
+			if (m_fullImagesWidth + m_imageWidth >= windowWidth - 450)
 			{
-				wxImage* tempImage = new wxImage(m_imageWidth, m_imageHeight, m_myImage, true); // lend my image buffer...
-				wxBitmap m_imageBitmap = wxBitmap(*tempImage, -1); // ...to get the corresponding bitmap
-				delete(tempImage);		// buffer not needed any more
-
-				if (m_fullImagesWidth + m_imageWidth >= windowWidth - 450)
-				{
-					m_fullImagesHeight += (m_imageHeight + 30);
-					m_fullImagesWidth = 50;
-				}
-				
-				dc.DrawBitmap(m_imageBitmap, m_fullImagesWidth, m_fullImagesHeight);
-				m_imageCounter++;
-				imagesPosition.insert(std::make_pair(i,
-					Point(m_fullImagesWidth, m_fullImagesHeight, m_fullImagesWidth + m_fullImagesWidth, m_fullImagesHeight + m_imageHeight)));
-
-				m_fullImagesWidth += m_imageWidth + 50;
+				m_fullImagesHeight += (m_imageHeight + 30);
+				m_fullImagesWidth = 50;
 			}
+				
+			dc.DrawBitmap(m_imageBitmap, m_fullImagesWidth, m_fullImagesHeight);
+			m_imageCounter++;
+			imagesPosition.insert(std::make_pair(i,
+				Point(m_fullImagesWidth, m_fullImagesHeight, m_fullImagesWidth + m_fullImagesWidth, m_fullImagesHeight + m_imageHeight)));
+
+			m_fullImagesWidth += m_imageWidth + 50;
 		}
 	}
 }

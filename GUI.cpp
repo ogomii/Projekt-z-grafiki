@@ -19,14 +19,15 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer1 = new wxBoxSizer(wxHORIZONTAL);
 
 	wxBoxSizer* bSizer2;
-	bSizer2 = new wxBoxSizer(wxVERTICAL);
+	bSizer2 = new wxBoxSizer(wxHORIZONTAL);
 
-	//Changes here ---------------------------
 	m_panel1 = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	m_panel1->SetBackgroundColour(wxColour(255, 255, 255));
 
-	bSizer2->Add(m_panel1, 1, wxALL | wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN, 5);
-	//Changes ---------------------------
+	bSizer2->Add(m_panel1, 1, wxEXPAND | wxALL, 5);
+
+	m_scrollBar1 = new wxScrollBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);
+	bSizer2->Add(m_scrollBar1, 0, wxALL | wxEXPAND, 5);
 
 
 	bSizer1->Add(bSizer2, 1, wxEXPAND, 5);
@@ -40,39 +41,39 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer(wxHORIZONTAL);
 
-	EXIF1 = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+	IPTC = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 
 	// Grid
-	EXIF1->CreateGrid(5, 1);
-	EXIF1->EnableEditing(true);
-	EXIF1->EnableGridLines(true);
-	EXIF1->EnableDragGridSize(false);
-	EXIF1->SetMargins(0, 0);
+	IPTC->CreateGrid(5, 1);
+	IPTC->EnableEditing(true);
+	IPTC->EnableGridLines(true);
+	IPTC->EnableDragGridSize(false);
+	IPTC->SetMargins(0, 0);
 
 	// Columns
-	EXIF1->SetColSize(0, 242);
-	EXIF1->EnableDragColMove(false);
-	EXIF1->EnableDragColSize(false);
-	EXIF1->SetColLabelSize(0);
-	EXIF1->SetColLabelValue(0, wxT("Values"));
-	EXIF1->SetColLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
+	IPTC->SetColSize(0, 242);
+	IPTC->EnableDragColMove(false);
+	IPTC->EnableDragColSize(false);
+	IPTC->SetColLabelSize(0);
+	IPTC->SetColLabelValue(0, wxT("Values"));
+	IPTC->SetColLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
 
 	// Rows
-	EXIF1->AutoSizeRows();
-	EXIF1->EnableDragRowSize(true);
-	EXIF1->SetRowLabelSize(110);
-	EXIF1->SetRowLabelValue(0, wxT("Title"));
-	EXIF1->SetRowLabelValue(1, wxT("Date created"));
-	EXIF1->SetRowLabelValue(2, wxT("City"));
-	EXIF1->SetRowLabelValue(3, wxT("Country"));
-	EXIF1->SetRowLabelValue(4, wxT("Creator"));
-	EXIF1->SetRowLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
+	IPTC->AutoSizeRows();
+	IPTC->EnableDragRowSize(true);
+	IPTC->SetRowLabelSize(130);
+	IPTC->SetRowLabelValue(0, wxT("Title"));
+	IPTC->SetRowLabelValue(1, wxT("Date created"));
+	IPTC->SetRowLabelValue(2, wxT("City"));
+	IPTC->SetRowLabelValue(3, wxT("Country"));
+	IPTC->SetRowLabelValue(4, wxT("Creator"));
+	IPTC->SetRowLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
 
 	// Label Appearance
 
 	// Cell Defaults
-	EXIF1->SetDefaultCellAlignment(wxALIGN_CENTER, wxALIGN_TOP);
-	bSizer11->Add(EXIF1, 0, wxALIGN_TOP | wxALL, 5);
+	IPTC->SetDefaultCellAlignment(wxALIGN_CENTER, wxALIGN_TOP);
+	bSizer11->Add(IPTC, 0, wxALIGN_TOP | wxALL, 5);
 
 
 	bSizer7->Add(bSizer11, 0, wxEXPAND, 5);
@@ -100,27 +101,23 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	// Rows
 	EXIF->AutoSizeRows();
 	EXIF->EnableDragRowSize(true);
-	EXIF->SetRowLabelSize(110);
+	EXIF->SetRowLabelSize(130);
 	EXIF->SetRowLabelValue(0, wxT("Camera make"));
 	EXIF->SetRowLabelValue(1, wxT("Camera model"));
-	EXIF->SetRowLabelValue(2, wxT("Data/Time"));
-	EXIF->SetRowLabelValue(3, wxT("Exif version"));
-	EXIF->SetRowLabelValue(4, wxT("Width x Height"));
+	EXIF->SetRowLabelValue(2, wxT("Date/Time"));
+	EXIF->SetRowLabelValue(3, wxT("Image description"));
+	EXIF->SetRowLabelValue(4, wxT("Orientation"));
 	EXIF->SetRowLabelValue(5, wxT("X resolution [dpi]"));
 	EXIF->SetRowLabelValue(6, wxT("Y resolution [dpi]"));
-	EXIF->SetRowLabelValue(7, wxT("Flash used"));
-	EXIF->SetRowLabelValue(8, wxT("Focal length"));
-	EXIF->SetRowLabelValue(9, wxT("CCD width"));
-	EXIF->SetRowLabelValue(10, wxT("Brightness"));
-	EXIF->SetRowLabelValue(11, wxT("Aperture"));
-	EXIF->SetRowLabelValue(12, wxT("ISO equiv."));
-	EXIF->SetRowLabelValue(13, wxT("Matering Mode"));
-	EXIF->SetRowLabelValue(14, wxT("Exposure"));
-	EXIF->SetRowLabelValue(15, wxT("Encoding"));
-	EXIF->SetRowLabelValue(16, wxEmptyString);
-	EXIF->SetRowLabelValue(17, wxT("Exposure time"));
-	EXIF->SetRowLabelValue(18, wxT("Y resolution [dpi]"));
-	EXIF->SetRowLabelValue(19, wxEmptyString);
+	EXIF->SetRowLabelValue(7, wxT("Resolution unit"));
+	EXIF->SetRowLabelValue(8, wxT("Software"));
+	EXIF->SetRowLabelValue(9, wxT("White point"));
+	EXIF->SetRowLabelValue(10, wxT("Primary Chomaticities"));
+	EXIF->SetRowLabelValue(11, wxT("YCbCr Coefficients"));
+	EXIF->SetRowLabelValue(12, wxT("YCbCr Positioning"));
+	EXIF->SetRowLabelValue(13, wxT("Reference BlackWhite"));
+	EXIF->SetRowLabelValue(14, wxT("Copyright"));
+	EXIF->SetRowLabelValue(15, wxT("Exif Offset"));
 	EXIF->SetRowLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
 
 	// Label Appearance
@@ -137,6 +134,9 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer(wxVERTICAL);
+
+	reset = new wxButton(this, wxID_ANY, wxT("Resetuj Exif"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer9->Add(reset, 0, wxALIGN_CENTER | wxALL, 5);
 
 	A = new wxButton(this, wxID_ANY, wxT("Wygeneruj plik"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer9->Add(A, 0, wxALIGN_CENTER | wxALL, 5);
@@ -158,18 +158,16 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Layout();
 
 	this->Centre(wxBOTH);
-
-	this->Centre( wxBOTH );
 	this->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::WindowUpdate));
-	D->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	this->Connect(wxEVT_SIZE, wxSizeEventHandler(MyFrame1::WindowOnSize));
+	D->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 
 }
 
 MyFrame1::~MyFrame1()
 {
 	this->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::WindowUpdate));
-	D->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	this->Disconnect(wxEVT_SIZE, wxSizeEventHandler(MyFrame1::WindowOnSize));
+	D->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	
 }

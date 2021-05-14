@@ -28,6 +28,7 @@
 #include <wx/textctrl.h>
 #include <wx/grid.h>
 #include <map>
+#include <wx/scrolbar.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -43,15 +44,13 @@ class MyFrame1 : public wxFrame
 
 		~MyFrame1();
 
-		//Changes applied begin here -------------------------
-
-
-		//Changes applied end here -------------------------
 
 	protected:
 		wxPanel* m_panel1;
-		wxGrid* EXIF1;
+		wxScrollBar* m_scrollBar1;
+		wxGrid* IPTC;
 		wxGrid* EXIF;
+		wxButton* reset;
 		wxButton* A;
 		wxButton* B;
 		wxButton* D;
