@@ -23,31 +23,6 @@ void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 	//printBitmapButtons();
 }
 
-void GUIMyFrame1::repaint()
-{
-	wxClientDC dc(m_panel1);
-	if (changedwindowsize == 0) {
-		m_fullImagesWidth = 50;
-		m_fullImagesHeight = 50;
-		m_imageWidth = 240;
-		m_imageHeight = 180;
-		for (int i = 0; i < file_count; i++) {
-			if (m_fullImagesWidth + m_imageWidth >= window_width + 2010)
-			{
-				m_fullImagesHeight += (m_imageHeight + 180);
-				m_fullImagesWidth = 50;
-			}
-			//dc.DrawBitmap(bitmap[i], m_fullImagesHeight, m_fullImagesWidth);
-			m_fullImagesWidth += m_imageWidth + 50;
-		}
-		changedwindowsize = 1;
-	}
-	else {
-		changedwindowsize = 0;
-		dc.Clear();
-		repaint();
-	}
-}
 
 void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 {
