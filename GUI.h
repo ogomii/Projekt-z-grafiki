@@ -12,6 +12,7 @@
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
 #include <wx/button.h>
+
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
@@ -27,8 +28,10 @@
 #include <wx/icon.h>
 #include <wx/textctrl.h>
 #include <wx/grid.h>
+#include <wx/sizer.h>
 #include <map>
 #include <wx/scrolbar.h>
+
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -38,28 +41,31 @@
 ///////////////////////////////////////////////////////////////////////////////
 class MyFrame1 : public wxFrame
 {
-	public:
+private:
 
-		MyFrame1(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(643, 478), long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
+protected:
+	wxPanel* m_panel1;
+	wxPanel* m_panelFullDisplay;
+	wxScrollBar* m_scrollBar1;
+	wxGrid* IPTC;
+	wxGrid* EXIF;
+	wxButton* reset;
+	wxButton* A;
+	wxButton* B;
+	wxButton* D;
+	
 
-		~MyFrame1();
+	// Virtual event handlers, overide them in your derived class
+	virtual void window_update(wxUpdateUIEvent& event) { event.Skip(); }
+	virtual void scrollbar_scroll(wxScrollEvent& event) { event.Skip(); }
+	virtual void LoadImgOnClick(wxCommandEvent& event) { event.Skip(); }
 
 
-	protected:
-		wxPanel* m_panel1;
-		wxScrollBar* m_scrollBar1;
-		wxGrid* IPTC;
-		wxGrid* EXIF;
-		wxButton* reset;
-		wxButton* A;
-		wxButton* B;
-		wxButton* D;
+public:
 
-		virtual void WindowOnSize(wxSizeEvent& event) { event.Skip(); }
-		virtual void WindowUpdate(wxUpdateUIEvent& event) { event.Skip(); }
-		virtual void LoadImgOnClick(wxCommandEvent& event) { event.Skip(); }
+	MyFrame1(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(643, 478), long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
+
+	~MyFrame1();
 
 };
-
 #endif 
-
