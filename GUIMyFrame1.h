@@ -112,7 +112,7 @@ public:
 		event.Skip();
 	}
 protected:
-	void repaint();
+	
 	void window_update(wxUpdateUIEvent& event);
 	void LoadImgOnClick(wxCommandEvent& event);
 	void WindowSizeChanged(wxSizeEvent& event);
