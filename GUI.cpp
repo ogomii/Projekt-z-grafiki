@@ -20,7 +20,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer(wxHORIZONTAL);
 
-	m_panel1 = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	m_panel1 = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	m_panel1->SetBackgroundColour(wxColour(255, 255, 255));
 	m_panel1->Layout();
 	bSizer2->Add(m_panel1, 1, wxALL | wxEXPAND, 5);
@@ -29,15 +29,12 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	//panel full dsplay
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer(wxHORIZONTAL);
-	m_panelFullDisplay= new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	m_panelFullDisplay = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	m_panelFullDisplay->SetBackgroundColour(wxColour(255, 255, 255));
 	m_panelFullDisplay->Layout();
 	bSizer3->Add(m_panelFullDisplay, 1, wxALL | wxEXPAND, 5);
 	m_panelFullDisplay->Hide();
 
-
-	m_scrollBar1 = new wxScrollBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);
-	bSizer2->Add(m_scrollBar1, 0, wxALL | wxEXPAND, 5);
 
 
 	bSizer1->Add(bSizer2, 1, wxEXPAND, 5);
@@ -171,15 +168,6 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 
 	// Connect Events
 	this->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::window_update));
-	m_scrollBar1->Connect(wxEVT_SCROLL_TOP, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_BOTTOM, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_LINEUP, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_PAGEUP, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
 	D->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 }
 
@@ -187,15 +175,6 @@ MyFrame1::~MyFrame1()
 {
 	// Disconnect Events
 	this->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::window_update));
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_TOP, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_BOTTOM, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_LINEUP, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_PAGEUP, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
-	m_scrollBar1->Disconnect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(MyFrame1::scrollbar_scroll), NULL, this);
 	D->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 
 }
