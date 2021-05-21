@@ -44,20 +44,18 @@ class MyFrame1 : public wxFrame
 private:
 
 protected:
-	wxPanel* m_panel1;
+	wxScrolledWindow* m_panel1;
 	wxPanel* m_panelFullDisplay;
-	wxScrollBar* m_scrollBar1;
 	wxGrid* IPTC;
 	wxGrid* EXIF;
 	wxButton* reset;
 	wxButton* A;
 	wxButton* B;
 	wxButton* D;
-	
+
 
 	// Virtual event handlers, overide them in your derived class
 	virtual void window_update(wxUpdateUIEvent& event) { event.Skip(); }
-	virtual void scrollbar_scroll(wxScrollEvent& event) { event.Skip(); }
 	virtual void LoadImgOnClick(wxCommandEvent& event) { event.Skip(); }
 
 
