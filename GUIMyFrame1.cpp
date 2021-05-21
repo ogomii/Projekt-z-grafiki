@@ -5,7 +5,7 @@ GUIMyFrame1::GUIMyFrame1(wxWindow* parent)
 	MyFrame1(parent)
 {
 	m_myImage = NULL;
-
+	file_count = 0;
 }
 
 void GUIMyFrame1::WindowSizeChanged(wxSizeEvent& event)
@@ -20,7 +20,12 @@ void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 {
 	//changedwindowsize = 0;
 	//repaint();
-	//printBitmapButtons();
+	if (window_width != m_panel1->GetSize().GetWidth() || window_height != m_panel1->GetSize().GetHeight())
+	{
+		window_width = m_panel1->GetSize().GetWidth();
+		window_height = m_panel1->GetSize().GetHeight();
+		printBitmapButtons();
+	}
 }
 
 
@@ -40,7 +45,7 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 
 
 
-		wxMessageBox(_("LOADING FIELS>>>"));
+		//wxMessageBox(_("LOADING FIELS>>>"));
 		printBitmapButtons();
 		changedirectoryclickevent = 1;
 		//repaint();
@@ -56,35 +61,44 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 
 void GUIMyFrame1::printBitmapButtons() {
 	wxClientDC dc(m_panel1);
-	fgSizer1 = new wxFlexGridSizer(4, 0, 0, 0);
-
-	m_fullImagesWidth = 50;
-	m_fullImagesHeight = 50;
-	m_imageWidth = 240;
-	m_imageHeight = 180;
-	
-	/////////////////////
-	for (int i = 0; i < file_count; i++) //load images to vector
+	if (file_count > 0)
 	{
-		/*m_imageRGB = new wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
-		m_imageRGB->Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
-		wxBitmap m_imageBitmap(*m_imageRGB, -1);                        //OK, but not optimized
-		bitmap.push_back(m_imageBitmap);*/
+		int cols = window_width / 240 ;
+		int rows = file_count / cols + 1;
+		if(fgSizer1) fgSizer1->Clear(true);
+		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 0);
 
-		wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
-		wxString path_a = path_array[i];
-		imag.Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
 
-		wxBitmap bmpt1(imag, -1);
-		wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bmpt1, wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
-		fgSizer1->Add(m_bmt1);
+		m_fullImagesWidth = 50;
+		m_fullImagesHeight = 50;
+		m_imageWidth = 240;
+		m_imageHeight = 180;
+	
+		/////////////////////
+	
+		
+		for (int i = 0; i < file_count; i++) //load images to vector
+		{
+			/*m_imageRGB = new wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
+			m_imageRGB->Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
+			wxBitmap m_imageBitmap(*m_imageRGB, -1);                        //OK, but not optimized
+			bitmap.push_back(m_imageBitmap);*/
 
-		m_fullImagesWidth += m_imageWidth + 50;
+			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
+			wxString path_a = path_array[i];
+			imag.Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
 
+			wxBitmap bmpt1(imag, -1);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bmpt1, wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
+			fgSizer1->Add(m_bmt1);
+
+			m_fullImagesWidth += m_imageWidth + 50;
+
+		}
+		m_panel1->SetSizer(fgSizer1);
+		m_panel1->FitInside();
+		m_panel1->SetScrollRate(25, 25);
 	}
-	m_panel1->SetSizer(fgSizer1);
-	m_panel1->FitInside();
-	m_panel1->SetScrollRate(25, 25);
 }
 
 
