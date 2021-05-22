@@ -46,7 +46,7 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 
 
 		//wxMessageBox(_("LOADING FIELS>>>"));
-		printBitmapButtons();
+		loadBitmaps();
 		changedirectoryclickevent = 1;
 		//repaint();
 	}
@@ -57,6 +57,22 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 }
 
 
+void GUIMyFrame1::loadBitmaps()
+{
+	if (file_count > 0)
+	{
+		for (int i = 0; i < file_count; i++) //load images to vector
+		{
+			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
+			imag.Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
+
+			wxBitmap bmpt1(imag, -1);
+			bitmapVector.push_back(bmpt1);
+
+		}
+		printBitmapButtons();
+	}
+}
 
 
 void GUIMyFrame1::printBitmapButtons() {
@@ -75,25 +91,13 @@ void GUIMyFrame1::printBitmapButtons() {
 		m_imageHeight = 180;
 	
 		/////////////////////
-	
-		
+
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
-			/*m_imageRGB = new wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
-			m_imageRGB->Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
-			wxBitmap m_imageBitmap(*m_imageRGB, -1);                        //OK, but not optimized
-			bitmap.push_back(m_imageBitmap);*/
-
-			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
 			wxString path_a = path_array[i];
-			imag.Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
-
-			wxBitmap bmpt1(imag, -1);
-			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bmpt1, wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
 			fgSizer1->Add(m_bmt1);
-
 			m_fullImagesWidth += m_imageWidth + 50;
-
 		}
 		m_panel1->SetSizer(fgSizer1);
 		m_panel1->FitInside();

@@ -75,7 +75,9 @@ public:
 	wxImage sourceImage;
 	int changedirectoryclickevent = 0;
 	int changedwindowsize = 0;
+	std::vector<wxBitmap> bitmapVector;
 	void printBitmapButtons();
+	void loadBitmaps();
 	//static methods for displaying data
 	static void DisplayPic(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer);
 	static void DisplayMetaData(wxGrid* EXIF, wxPanel* parent, wxPanel* display, wxString path);
