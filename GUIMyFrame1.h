@@ -104,9 +104,10 @@ class Panel2 : public wxPanel{
 		Panel2(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer, const wxSize& pos = wxDefaultSize) :wxPanel(display, -1, wxPoint(0, 0), pos), _parent(parent), _path(path), _DisplayPanel(display), _fgSizer(fgSizer)
 		{
 			Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(Panel2::OnPanelDoubleDown));
-			Connect(wxEVT_PAINT, (wxObjectEventFunction)&Panel2::OnPaint);
+			//Connect(wxEVT_PAINT, (wxObjectEventFunction)&Panel2::OnPaint);
 			display->Show();
-			display->SetBackgroundColour(wxBG_STYLE_CUSTOM);			
+			display->SetBackgroundColour(wxBG_STYLE_CUSTOM);	
+			OnPaint();
 		}
 	private:
 		wxPanel* _parent;
@@ -116,14 +117,14 @@ class Panel2 : public wxPanel{
 		void OnPanelDoubleDown(wxMouseEvent& event)
 		{
 			GUIMyFrame1::DisplayFolder(_parent,_DisplayPanel,_path);
-			
 		}
-		void OnPaint(wxPaintEvent& event)
+		void OnPaint()
 		{
 			wxImage im = wxImage(_path, wxBITMAP_TYPE_ANY, -1);
 			im.Rescale(1200, 700, wxIMAGE_QUALITY_NEAREST);
 			wxBitmap b1(im, -1);
-			wxPaintDC dc(this);
+			wxClientDC dc(this);
+			//dc.Clear();
 			dc.DrawBitmap(b1, 0, 0, false);
 		}
 	
