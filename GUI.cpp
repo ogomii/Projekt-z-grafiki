@@ -38,7 +38,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 
 
 	bSizer1->Add(bSizer2, 1, wxEXPAND, 5);
-
+	bSizer1->Add(bSizer3, 1, wxEXPAND, 5);
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer(wxVERTICAL);
 

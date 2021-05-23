@@ -8,6 +8,10 @@ GUIMyFrame1::GUIMyFrame1(wxWindow* parent)
 	file_count = 0;
 }
 
+Panel2* GUIMyFrame1::currentFullDisplay = new Panel2();
+int GUIMyFrame1::FDwindow_width = 700;
+int GUIMyFrame1::FDwindow_height = 1200;
+
 void GUIMyFrame1::WindowSizeChanged(wxSizeEvent& event)
 {
 	window_width = event.GetSize().GetWidth();
@@ -20,12 +24,25 @@ void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 {
 	//changedwindowsize = 0;
 	//repaint();
-	if (window_width != m_panel1->GetSize().GetWidth() || window_height != m_panel1->GetSize().GetHeight())
+	if (m_panel1->IsShown())
 	{
-		window_width = m_panel1->GetSize().GetWidth();
-		window_height = m_panel1->GetSize().GetHeight();
-		printBitmapButtons();
+		if (window_width != m_panel1->GetSize().GetWidth() || window_height != m_panel1->GetSize().GetHeight())
+		{
+			window_width = m_panel1->GetSize().GetWidth();
+			window_height = m_panel1->GetSize().GetHeight();
+			printBitmapButtons();
+		}
 	}
+	else if (m_panelFullDisplay->IsShown())
+	{
+		if (FDwindow_width != m_panelFullDisplay->GetSize().GetWidth() || FDwindow_height != m_panelFullDisplay->GetSize().GetHeight())
+		{
+			FDwindow_width = m_panelFullDisplay->GetSize().GetWidth();
+			FDwindow_height = m_panelFullDisplay->GetSize().GetHeight();
+			currentFullDisplay->PaintFD();
+		}
+	}
+	
 }
 
 
@@ -53,7 +70,6 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 		//wxMessageBox(_("LOADING FIELS>>>"));
 		loadBitmaps();
 		changedirectoryclickevent = 1;
-		//repaint();
 	}
 	else {
 		wxMessageBox(_("Cannot open a directory"));
@@ -84,25 +100,17 @@ void GUIMyFrame1::loadBitmaps()
 void GUIMyFrame1::printBitmapButtons() {
 	if (file_count > 0)
 	{
-		int cols = window_width / 240 ;
-		int rows = file_count / cols + 1;
+		int rows = 1;
+		int cols = (window_width - 40) / 240 ;
+		if(cols != 0 ) rows = file_count / cols + 1;
 		if(fgSizer1) fgSizer1->Clear(true);
 		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 0);
-
-
-		m_fullImagesWidth = 50;
-		m_fullImagesHeight = 50;
-		m_imageWidth = 240;
-		m_imageHeight = 180;
-	
-		/////////////////////
 
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxString path_a = path_array[i];
 			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bitmapVector[i], path_a);
 			fgSizer1->Add(m_bmt1);
-			m_fullImagesWidth += m_imageWidth + 50;
 		}
 		m_panel1->SetSizer(fgSizer1);
 		m_panel1->FitInside();
@@ -119,7 +127,7 @@ void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display, w
 	int h = parent->GetSize().GetHeight();
 	display->SetSize(w, h);
 	//display->Show();
-	wxPanel* p = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
+	currentFullDisplay = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
 }
 
 
