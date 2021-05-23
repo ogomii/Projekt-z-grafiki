@@ -32,7 +32,12 @@ void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 {
 
-
+	if (path_array.GetCount() != 0)
+	{
+		path_array.Clear();
+		imageLoaded = false;
+		changedirectoryclickevent = 0;
+	}
 	wxString defaultPath = wxT("/");
 	wxDirDialog dialog(this, wxT("Choose directory"), defaultPath, wxDD_NEW_DIR_BUTTON);
 	if (dialog.ShowModal() == wxID_OK) {
@@ -61,6 +66,7 @@ void GUIMyFrame1::loadBitmaps()
 {
 	if (file_count > 0)
 	{
+		bitmapVector.clear();
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
@@ -76,7 +82,6 @@ void GUIMyFrame1::loadBitmaps()
 
 
 void GUIMyFrame1::printBitmapButtons() {
-	wxClientDC dc(m_panel1);
 	if (file_count > 0)
 	{
 		int cols = window_width / 240 ;
@@ -95,7 +100,7 @@ void GUIMyFrame1::printBitmapButtons() {
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxString path_a = path_array[i];
-			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bitmapVector[i], path_a);
 			fgSizer1->Add(m_bmt1);
 			m_fullImagesWidth += m_imageWidth + 50;
 		}
@@ -115,7 +120,6 @@ void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display, w
 	display->SetSize(w, h);
 	//display->Show();
 	wxPanel* p = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
-	
 }
 
 
