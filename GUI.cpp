@@ -12,7 +12,7 @@
 
 MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
-	this->SetSizeHints(wxSize(800,600), wxDefaultSize);
+	this->SetSizeHints(wxSize(800, 600), wxDefaultSize);
 
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer(wxHORIZONTAL);
@@ -38,7 +38,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 
 
 	bSizer1->Add(bSizer2, 1, wxEXPAND, 5);
-	bSizer1->Add(bSizer3, 1, wxEXPAND, 5);
+
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer(wxVERTICAL);
 
@@ -51,7 +51,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	IPTC = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
 
 	// Grid
-	IPTC->CreateGrid(5, 1);
+	IPTC->CreateGrid(6, 1);
 	IPTC->EnableEditing(true);
 	IPTC->EnableGridLines(true);
 	IPTC->EnableDragGridSize(false);
@@ -70,10 +70,11 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	IPTC->EnableDragRowSize(true);
 	IPTC->SetRowLabelSize(130);
 	IPTC->SetRowLabelValue(0, wxT("Title"));
-	IPTC->SetRowLabelValue(1, wxT("Date created"));
+	IPTC->SetRowLabelValue(1, wxT("ReleaseDate"));
 	IPTC->SetRowLabelValue(2, wxT("City"));
 	IPTC->SetRowLabelValue(3, wxT("Country"));
-	IPTC->SetRowLabelValue(4, wxT("Creator"));
+	IPTC->SetRowLabelValue(4, wxT("Author"));
+	IPTC->SetRowLabelValue(5, wxT("Keywords"));
 	IPTC->SetRowLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
 
 	// Label Appearance
@@ -142,7 +143,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer(wxVERTICAL);
 
-	reset = new wxButton(this, wxID_ANY, wxT("Resetuj Exif"), wxDefaultPosition, wxDefaultSize, 0);
+	reset = new wxButton(this, wxID_ANY, wxT("Resetuj dane IPTC"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer9->Add(reset, 0, wxALIGN_CENTER | wxALL, 5);
 
 	A = new wxButton(this, wxID_ANY, wxT("Wygeneruj plik"), wxDefaultPosition, wxDefaultSize, 0);
@@ -169,6 +170,8 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	// Connect Events
 	this->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::window_update));
 	D->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
+	reset->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
+
 }
 
 MyFrame1::~MyFrame1()
@@ -176,5 +179,6 @@ MyFrame1::~MyFrame1()
 	// Disconnect Events
 	this->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::window_update));
 	D->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
+	reset->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
 
 }
