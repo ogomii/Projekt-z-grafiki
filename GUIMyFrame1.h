@@ -113,7 +113,7 @@ public:
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(Panel2::OnPanelDoubleDown));
 		//Connect(wxEVT_PAINT, (wxObjectEventFunction)&Panel2::OnPaint);
 		display->Show();
-		display->SetBackgroundColour(wxBG_STYLE_CUSTOM);
+		//display->SetBackgroundColour(wxBG_STYLE_CUSTOM);
 		PaintFD();
 	}
 private:
@@ -124,21 +124,36 @@ private:
 	void OnPanelDoubleDown(wxMouseEvent& event)
 	{
 		GUIMyFrame1::DisplayFolder(_parent, _DisplayPanel, _path);
-		
 	}
 	void PaintFD()
 	{
 		wxImage im = wxImage(_path, wxBITMAP_TYPE_ANY, -1);
-		im.Rescale(1200, 700, wxIMAGE_QUALITY_NEAREST);
+		int w = _DisplayPanel->GetSize().GetWidth();
+		int h = _DisplayPanel->GetSize().GetHeight();
+		int w_i = im.GetWidth();
+		int h_i= im.GetHeight();
+		if (w_i > h_i)
+		{
+			im.Rescale(w,h_i*w/w_i-1, wxIMAGE_QUALITY_NEAREST);
+		}
+		else
+		{
+			im.Rescale(w_i * h / h_i - 1, h, wxIMAGE_QUALITY_NEAREST);
+		}
 		wxBitmap b1(im, -1);
 		this->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
-		_parent->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
 		wxClientDC dc(this);
 		dc.Clear();
-		dc.DrawBitmap(b1, 0, 0, false);
+		if (w_i > h_i)
+		{
+			dc.DrawBitmap(b1, 0, (h- im.GetHeight())/2, false);
+		}
+		else
+		{
+			dc.DrawBitmap(b1, (w - im.GetWidth()) / 2,h, false);
+		}
 	}
 };
-
 
 class MyButton : public wxBitmapButton
 {
