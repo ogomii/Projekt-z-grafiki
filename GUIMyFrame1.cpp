@@ -80,6 +80,13 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 
 void GUIMyFrame1::loadBitmaps()
 {
+	///nie bylam w stanie dodać messageboxa, ktory by nam odpowiadal, wszytskie mają przysiki "ok","cancel" i nie mają możliwości braku przycisku, takze jest tu zwykle rysowanie bitmay
+	wxClientDC dc(m_panel1);
+	dc.SetPen(*wxBLACK_PEN);
+	wxString text = "LOADING IMAGES...";
+	dc.SetFont(wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Calibri"));
+	dc.DrawText(text, wxPoint(dc.GetSize().GetWidth()/2-150, dc.GetSize().GetHeight()/2));
+	
 	if (file_count > 0)
 	{
 		bitmapVector.clear();
