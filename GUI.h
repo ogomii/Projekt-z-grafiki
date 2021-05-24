@@ -57,6 +57,7 @@ protected:
 	// Virtual event handlers, overide them in your derived class
 	virtual void window_update(wxUpdateUIEvent& event) { event.Skip(); }
 	virtual void LoadImgOnClick(wxCommandEvent& event) { event.Skip(); }
+	virtual void IPTCReset(wxCommandEvent& event) { event.Skip(); }
 
 
 public:
