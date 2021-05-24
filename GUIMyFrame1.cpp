@@ -42,7 +42,7 @@ void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 			currentFullDisplay->PaintFD();
 		}
 	}
-	
+
 }
 
 
@@ -80,16 +80,15 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 
 void GUIMyFrame1::loadBitmaps()
 {
-	///nie bylam w stanie dodać messageboxa, ktory by nam odpowiadal, wszytskie mają przysiki "ok","cancel" i nie mają możliwości braku przycisku, takze jest tu zwykle rysowanie bitmay
 	wxClientDC dc(m_panel1);
 	dc.SetPen(*wxBLACK_PEN);
 	wxString text = "LOADING IMAGES...";
 	dc.SetFont(wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Calibri"));
 	dc.DrawText(text, wxPoint(dc.GetSize().GetWidth()/2-150, dc.GetSize().GetHeight()/2));
-	
+
+
 	if (file_count > 0)
 	{
-		bitmapVector.clear();
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
@@ -99,6 +98,7 @@ void GUIMyFrame1::loadBitmaps()
 			bitmapVector.push_back(bmpt1);
 
 		}
+		dc.Clear();
 		printBitmapButtons();
 	}
 }
@@ -108,15 +108,15 @@ void GUIMyFrame1::printBitmapButtons() {
 	if (file_count > 0)
 	{
 		int rows = 1;
-		int cols = (window_width - 40) / 240 ;
-		if(cols != 0 ) rows = file_count / cols + 1;
-		if(fgSizer1) fgSizer1->Clear(true);
+		int cols = (window_width - 40) / 240;
+		if (cols != 0) rows = file_count / cols + 1;
+		if (fgSizer1) fgSizer1->Clear(true);
 		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 0);
 
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxString path_a = path_array[i];
-			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, -1, bitmapVector[i], path_a);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
 			fgSizer1->Add(m_bmt1);
 		}
 		m_panel1->SetSizer(fgSizer1);
@@ -134,11 +134,12 @@ void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display, w
 	int h = parent->GetSize().GetHeight();
 	display->SetSize(w, h);
 	//display->Show();
-	currentFullDisplay = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
+	wxPanel* p = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
+
 }
 
 
-void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxPanel* parent, wxPanel* display, wxString path)
+void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path)
 {
 	wxClientDC dc(parent);
 	FIBITMAP* bmp;
@@ -152,12 +153,16 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxPanel* parent, wxPanel* displa
 
 	wxString Label;
 	int i = 0;
+	int z = 0;
 	mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
+
 	if (mdhandle)
 	{
+		z = 1;
 		do
 		{
 			const char* value = FreeImage_TagToString(FIMD_EXIF_MAIN, tag);
+
 			if (FreeImage_GetTagValue(tag))
 			{
 				Label = value;
@@ -165,15 +170,121 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxPanel* parent, wxPanel* displa
 				i++;
 			}
 
-		} while (FreeImage_FindNextMetadata(mdhandle, &tag));
+		} while (FreeImage_FindNextMetadata(mdhandle, &tag)&&i<16);
 
 		FreeImage_FindCloseMetadata(mdhandle);
 	}
+
+	
+	if(!z){
+		for (int k = 0; k <16; k++) {
+			EXIF->SetCellValue(k, 0,"");
+		}
+	}
+	
+
+	//INSERTING META DATA
+	//FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "By-lineTitle", "]]]]]]]]]");							//IMPORTANT - how to insert metadata into jpeg!!!!!!!
+	//FreeImage_Save(FIF_JPEG, bitmap_free, path, 0);
+
+	
+	tag = NULL;
+	FreeImage_GetMetadata(FIMD_IPTC, bitmap_free, "By-lineTitle", &tag);
+	if (tag != NULL) {
+		const char* value = (char*)FreeImage_GetTagValue(tag);
+		Label = value;
+		IPTC->SetCellValue(0, 0, value);
+	}
+	else {
+		IPTC->SetCellValue(0, 0, "");
+	}
+	tag = NULL;
+	FreeImage_GetMetadata(FIMD_IPTC, bitmap_free, "DateCreated", &tag);
+	if (tag != NULL) {
+		const char* value = (char*)FreeImage_GetTagValue(tag);
+		Label = value;
+		IPTC->SetCellValue(1, 0, value);
+	}
+	else {
+		IPTC->SetCellValue(1, 0, "");
+	}
+	tag = NULL;
+	FreeImage_GetMetadata(FIMD_IPTC, bitmap_free, "City", &tag);
+	if (tag != NULL) {
+		const char* value = (char*)FreeImage_GetTagValue(tag);
+		Label = value;
+		IPTC->SetCellValue(2, 0, value);
+	}
+	else {
+		IPTC->SetCellValue(2, 0, "");
+	}
+	tag = NULL;
+	FreeImage_GetMetadata(FIMD_IPTC, bitmap_free, "Country-PrimaryLocationName", &tag);
+	if (tag != NULL) {
+		const char* value = (char*)FreeImage_GetTagValue(tag);
+		Label = value;
+		IPTC->SetCellValue(3, 0, value);
+	}
+	else {
+		IPTC->SetCellValue(3, 0, "");
+	}
+	tag = NULL;
+	FreeImage_GetMetadata(FIMD_IPTC, bitmap_free, "By-line", &tag);
+	if (tag != NULL) {
+		const char* value = (char*)FreeImage_GetTagValue(tag);
+		Label = value;
+		IPTC->SetCellValue(4, 0, value);
+	}
+	else {
+		IPTC->SetCellValue(4, 0, "");
+	}
+	tag = NULL;
+	FreeImage_GetMetadata(FIMD_IPTC, bitmap_free, "Keywords", &tag);
+	if (tag != NULL) {
+		const char* value = (char*)FreeImage_GetTagValue(tag);
+		Label = value;
+		IPTC->SetCellValue(5, 0, value);
+	}
+	else {
+		IPTC->SetCellValue(5, 0, "");
+	}
+	
+	
+	
 }
 
-void GUIMyFrame1::DisplayFolder(wxPanel* parent, wxPanel* display, wxString &path)
+void GUIMyFrame1::DisplayFolder(wxPanel* parent, wxPanel* display, wxString& path)
 {
 	display->Hide();
 	parent->Show();
-	//path= wxT("/");
+}
+
+void GUIMyFrame1::IPTCReset(wxCommandEvent& event) {
+	for (int i = 0; i < file_count; i++) //
+	{
+		FIBITMAP* bmp;
+		FIBITMAP* bitmap_free;
+		bmp = FreeImage_Load(FIF_JPEG, path_array[i], JPEG_DEFAULT);
+		int bip = FreeImage_GetBPP(bmp);
+		bitmap_free = FreeImage_Allocate(240, 180, bip);
+		bitmap_free = bmp;
+		FITAG* tag = NULL;
+		FIMETADATA* mdhandle = NULL;
+
+		
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-lineTitle","");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "DateCreated", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "City", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "Country-PrimaryLocationName", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-line", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "Keywords", "");
+		IPTC->SetCellValue(0, 0, " ");
+		IPTC->SetCellValue(1, 0, " ");
+		IPTC->SetCellValue(2, 0, " ");
+		IPTC->SetCellValue(3, 0, " ");
+		IPTC->SetCellValue(4, 0, " ");
+		IPTC->SetCellValue(5, 0, " ");
+
+		FreeImage_Save(FIF_JPEG, bitmap_free, path_array[i], 0);
+	}
 }
