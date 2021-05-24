@@ -41,20 +41,21 @@ void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 			FDwindow_height = m_panelFullDisplay->GetSize().GetHeight();
 			currentFullDisplay->PaintFD();
 		}
+			
 	}
-
 }
 
 
 void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 {
 
-	if (path_array.GetCount() != 0)
-	{
-		path_array.Clear();
-		imageLoaded = false;
-		changedirectoryclickevent = 0;
-	}
+	path_array.Clear();
+	imageLoaded = false;
+	changedirectoryclickevent = 0;
+	if (fgSizer1) fgSizer1->Clear(true);
+	fgSizer1 = nullptr;
+	bitmapVector.clear();
+	file_count = 0;
 	wxString defaultPath = wxT("/");
 	wxDirDialog dialog(this, wxT("Choose directory"), defaultPath, wxDD_NEW_DIR_BUTTON);
 	if (dialog.ShowModal() == wxID_OK) {
@@ -64,7 +65,6 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 		dir.GetAllFiles(dialog.GetPath(), &path_array, wxEmptyString, wxDIR_FILES);
 		file_count = path_array.GetCount();
 		imageLoaded = true;
-
 
 
 		//wxMessageBox(_("LOADING FIELS>>>"));
@@ -134,7 +134,7 @@ void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display, w
 	int h = parent->GetSize().GetHeight();
 	display->SetSize(w, h);
 	//display->Show();
-	wxPanel* p = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
+	currentFullDisplay = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
 
 }
 

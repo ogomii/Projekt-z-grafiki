@@ -124,6 +124,7 @@ private:
 	void OnPanelDoubleDown(wxMouseEvent& event)
 	{
 		GUIMyFrame1::DisplayFolder(_parent, _DisplayPanel, _path);
+		
 	}
 	void PaintFD()
 	{
@@ -131,6 +132,7 @@ private:
 		im.Rescale(1200, 700, wxIMAGE_QUALITY_NEAREST);
 		wxBitmap b1(im, -1);
 		this->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
+		_parent->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
 		wxClientDC dc(this);
 		dc.Clear();
 		dc.DrawBitmap(b1, 0, 0, false);
