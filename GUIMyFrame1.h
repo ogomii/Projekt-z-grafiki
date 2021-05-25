@@ -142,6 +142,7 @@ private:
 		}
 		wxBitmap b1(im, -1);
 		this->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
+		_parent->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
 		wxClientDC dc(this);
 		dc.Clear();
 		if (w_i > h_i)
