@@ -172,6 +172,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	this->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::window_update));
 	D->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	reset->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
+	B->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
 
 }
 
@@ -181,5 +182,6 @@ MyFrame1::~MyFrame1()
 	this->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MyFrame1::window_update));
 	D->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	reset->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
+	B->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
 
 }

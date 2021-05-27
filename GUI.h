@@ -58,6 +58,7 @@ protected:
 	virtual void window_update(wxUpdateUIEvent& event) { event.Skip(); }
 	virtual void LoadImgOnClick(wxCommandEvent& event) { event.Skip(); }
 	virtual void IPTCReset(wxCommandEvent& event) { event.Skip(); }
+	virtual void WriteDataOnPic(wxCommandEvent& event) { event.Skip(); }
 
 
 public:

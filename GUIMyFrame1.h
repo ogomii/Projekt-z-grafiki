@@ -73,6 +73,7 @@ public:
 	std::vector<wxBitmap> bitmapVector;
 	void printBitmapButtons();
 	void loadBitmaps();
+	wxString getDataOnBitmap(wxString path);
 	//static methods for displaying data
 	static void DisplayPic(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer);
 	static void DisplayMetaData(wxGrid* EXIF,wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path);
@@ -89,6 +90,7 @@ protected:
 	void WindowSizeChanged(wxSizeEvent& event);
 	void scrollbar_scroll(wxScrollEvent& event);
 	void IPTCReset(wxCommandEvent& event);
+	void WriteDataOnPic(wxCommandEvent& event);
 
 };
 
@@ -119,6 +121,8 @@ private:
 	wxString _path;
 	wxPanel* _DisplayPanel;
 	wxFlexGridSizer* _fgSizer;
+	wxString getPath() const { return _path; }
+
 	void OnPanelDoubleDown(wxMouseEvent& event)
 	{
 		GUIMyFrame1::DisplayFolder(_parent, _DisplayPanel, _path);
