@@ -147,7 +147,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	reset = new wxButton(this, wxID_ANY, wxT("Resetuj dane IPTC"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer9->Add(reset, 0, wxALIGN_CENTER | wxALL, 5);
 
-	A = new wxButton(this, wxID_ANY, wxT("Wygeneruj plik"), wxDefaultPosition, wxDefaultSize, 0);
+	A = new wxButton(this, wxID_ANY, wxT("Zapisz tekst wszêdzie"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer9->Add(A, 0, wxALIGN_CENTER | wxALL, 5);
 
 	B = new wxButton(this, wxID_ANY, wxT("Zapisz tekst"), wxDefaultPosition, wxDefaultSize, 0);
@@ -173,6 +173,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	D->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	reset->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
 	B->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
+	A->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::GenerateTextOnAll), NULL, this);
 
 }
 
@@ -183,5 +184,5 @@ MyFrame1::~MyFrame1()
 	D->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::LoadImgOnClick), NULL, this);
 	reset->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
 	B->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
-
+	A->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::GenerateTextOnAll), NULL, this);
 }

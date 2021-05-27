@@ -355,3 +355,33 @@ void GUIMyFrame1::WriteDataOnPic(wxCommandEvent& event)
 		else wxMessageBox(wxT("Extension ERROR"), wxT("ERROR"));
 	}
 }
+
+
+void GUIMyFrame1::GenerateTextOnAll(wxCommandEvent& event)
+{
+	if (path_array.empty())
+	{
+		wxMessageBox(wxT("No files to write"));
+		return;
+	}
+	wxFileDialog saveFileDialog(this, _("Save PNG file"), "", "",
+		"PNG files (*.png)|*.png", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (saveFileDialog.ShowModal() == wxID_OK)
+	{
+		wxFileName my_file(saveFileDialog.GetPath());
+		wxString my_file_ext = my_file.GetExt().Lower();
+		if (!(my_file_ext == wxT("png"))) return;
+	}
+	wxString dataOnBitmap = "";
+	for (int i = 0; i < file_count; i++)
+	{
+		wxString fileName = saveFileDialog.GetPath().erase(saveFileDialog.GetPath().Length() - 4) + wxString::Format(wxT("%i"), i) + wxString(".png");
+		dataOnBitmap = getDataOnBitmap(path_array[i]);
+		wxImage im = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
+		wxBitmap b1(im, -1);
+		wxMemoryDC mem(b1);
+		mem.DrawText(dataOnBitmap, wxPoint(0, 0));
+		const wxImage image = b1.ConvertToImage();
+		image.SaveFile(fileName, wxBITMAP_TYPE_PNG);
+	}
+}

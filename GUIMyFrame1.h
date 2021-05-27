@@ -91,6 +91,7 @@ protected:
 	void scrollbar_scroll(wxScrollEvent& event);
 	void IPTCReset(wxCommandEvent& event);
 	void WriteDataOnPic(wxCommandEvent& event);
+	void GenerateTextOnAll(wxCommandEvent& event);
 
 };
 
