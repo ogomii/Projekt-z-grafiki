@@ -111,9 +111,7 @@ public:
 	Panel2(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer, const wxSize& pos = wxDefaultSize) :wxPanel(display, -1, wxPoint(0, 0), pos), _parent(parent), _path(path), _DisplayPanel(display), _fgSizer(fgSizer)
 	{
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(Panel2::OnPanelDoubleDown));
-		//Connect(wxEVT_PAINT, (wxObjectEventFunction)&Panel2::OnPaint);
 		display->Show();
-		//display->SetBackgroundColour(wxBG_STYLE_CUSTOM);
 		PaintFD();
 	}
 private:
@@ -131,28 +129,27 @@ private:
 		int w = _DisplayPanel->GetSize().GetWidth();
 		int h = _DisplayPanel->GetSize().GetHeight();
 		int w_i = im.GetWidth();
-		int h_i= im.GetHeight();
-		if (w_i > h_i)
+		int h_i = im.GetHeight();
+		double x1 = (double)h / h_i;
+		double x2 = (double)w / w_i;
+		if (w_i > w || h_i > h)
 		{
-			im.Rescale(w,h_i*w/w_i-1, wxIMAGE_QUALITY_NEAREST);
-		}
-		else
-		{
-			im.Rescale(w_i * h / h_i - 1, h, wxIMAGE_QUALITY_NEAREST);
+			if (x1 < x2)
+			{
+				im.Rescale(floor(x1 * w_i), floor(h_i * x1), wxIMAGE_QUALITY_NEAREST);
+			}
+			else
+			{
+				im.Rescale(floor(w_i * x2), floor(h_i * x2), wxIMAGE_QUALITY_NEAREST);
+			}
 		}
 		wxBitmap b1(im, -1);
 		this->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
 		_parent->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
+		
 		wxClientDC dc(this);
 		dc.Clear();
-		if (w_i > h_i)
-		{
-			dc.DrawBitmap(b1, 0, (h- im.GetHeight())/2, false);
-		}
-		else
-		{
-			dc.DrawBitmap(b1, (w - im.GetWidth()) / 2,h, false);
-		}
+		dc.DrawBitmap(b1, (w - im.GetWidth()) / 2, (h - im.GetHeight()) / 2, false);
 	}
 };
 
