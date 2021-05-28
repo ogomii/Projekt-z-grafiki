@@ -87,6 +87,13 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 
 	bSizer7->Add(bSizer11, 0, wxEXPAND, 5);
 
+	wxBoxSizer* bSizer8;
+	bSizer8 = new wxBoxSizer(wxVERTICAL);
+
+	m_textCtrl1 = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(372, -1), wxTE_MULTILINE | wxTE_READONLY | wxTE_RIGHT | wxTE_WORDWRAP);
+	bSizer8->Add(m_textCtrl1, 0, wxALL, 5);
+	bSizer7->Add(bSizer8, 1, wxEXPAND, 5);
+
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
