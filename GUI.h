@@ -60,6 +60,7 @@ protected:
 	virtual void IPTCReset(wxCommandEvent& event) { event.Skip(); }
 	virtual void WriteDataOnPic(wxCommandEvent& event) { event.Skip(); }
 	virtual void GenerateTextOnAll(wxCommandEvent& event) { event.Skip(); }
+	virtual void WriteInIPTCData(wxCommandEvent& event) { event.Skip(); }
 
 public:
 
