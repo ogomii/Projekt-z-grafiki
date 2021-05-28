@@ -11,6 +11,7 @@ GUIMyFrame1::GUIMyFrame1(wxWindow* parent)
 Panel2* GUIMyFrame1::currentFullDisplay = new Panel2();
 int GUIMyFrame1::FDwindow_width = 700;
 int GUIMyFrame1::FDwindow_height = 1200;
+MyButton* GUIMyFrame1::currentPic = new MyButton();
 
 void GUIMyFrame1::WindowSizeChanged(wxSizeEvent& event)
 {
