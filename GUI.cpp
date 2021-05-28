@@ -144,19 +144,19 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer(wxVERTICAL);
 
-	reset = new wxButton(this, wxID_ANY, wxT("Resetuj dane IPTC"), wxDefaultPosition, wxDefaultSize, 0);
+	reset = new wxButton(this, wxID_ANY, wxT("Resetuj dane IPTC"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(reset, 0, wxALIGN_CENTER | wxALL, 5);
-	
-	w_IPTC = new wxButton(this, wxID_ANY, wxT("Zapisz IPTC"), wxDefaultPosition, wxDefaultSize, 0);
+
+	w_IPTC = new wxButton(this, wxID_ANY, wxT("Zapisz IPTC"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(w_IPTC, 0, wxALIGN_CENTER | wxALL, 5);
 
-	A = new wxButton(this, wxID_ANY, wxT("Zapisz tekst wszêdzie"), wxDefaultPosition, wxDefaultSize, 0);
+	A = new wxButton(this, wxID_ANY, wxT("Zapisz tekst wszêdzie"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(A, 0, wxALIGN_CENTER | wxALL, 5);
 
-	B = new wxButton(this, wxID_ANY, wxT("Zapisz tekst"), wxDefaultPosition, wxDefaultSize, 0);
+	B = new wxButton(this, wxID_ANY, wxT("Zapisz tekst"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(B, 0, wxALIGN_CENTER | wxALL, 5);
 
-	D = new wxButton(this, wxID_ANY, wxT("Wczytaj folder"), wxDefaultPosition, wxDefaultSize, 0);
+	D = new wxButton(this, wxID_ANY, wxT("Wczytaj folder"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(D, 0, wxALIGN_CENTER | wxALL, 5);
 
 
