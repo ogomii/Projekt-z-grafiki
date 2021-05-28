@@ -385,3 +385,81 @@ void GUIMyFrame1::GenerateTextOnAll(wxCommandEvent& event)
 		image.SaveFile(fileName, wxBITMAP_TYPE_PNG);
 	}
 }
+
+void GUIMyFrame1::IPTCReset(wxCommandEvent& event) {
+		FIBITMAP* bmp;
+		FIBITMAP* bitmap_free;
+		bmp = FreeImage_Load(FIF_JPEG, GUIMyFrame1::currentPic->GetPathFromClick(), JPEG_DEFAULT);
+		int bip = FreeImage_GetBPP(bmp);
+		bitmap_free = FreeImage_Allocate(240, 180, bip);
+		bitmap_free = bmp;
+		FITAG* tag = NULL;
+		FIMETADATA* mdhandle = NULL;
+
+
+//----------------------------------------------
+		/*int k = 0;
+		mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
+		if (mdhandle)
+		{
+			do
+			{
+				const char* value = FreeImage_TagToString(FIMD_EXIF_MAIN, tag);
+
+				if (FreeImage_GetTagValue(tag))
+				{
+					//FreeImage_SetMetadataKeyValue(FIMD_EXIF_MAIN, bitmap_free, FreeImage, "");
+					EXIF->SetCellValue(i, 0, " ");
+					k++;
+				}
+
+			} while (FreeImage_FindNextMetadata(mdhandle, &tag) && k < 16);
+
+			FreeImage_FindCloseMetadata(mdhandle);
+		}*/
+//-------------------------------------------------
+		//const char *
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-lineTitle", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "DateCreated", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "City", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "Country-PrimaryLocationName", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-line", "");
+		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "Keywords", "");
+		IPTC->SetCellValue(0, 0, " ");
+		IPTC->SetCellValue(1, 0, " ");
+		IPTC->SetCellValue(2, 0, " ");
+		IPTC->SetCellValue(3, 0, " ");
+		IPTC->SetCellValue(4, 0, " ");
+		IPTC->SetCellValue(5, 0, " ");
+
+		FreeImage_Save(FIF_JPEG, bitmap_free, GUIMyFrame1::currentPic->GetPathFromClick(), 0);
+	
+}
+
+
+void GUIMyFrame1::WriteInIPTCData(wxCommandEvent& event) {
+	FIBITMAP* bmp;
+	FIBITMAP* bitmap_free;
+	bmp = FreeImage_Load(FIF_JPEG, GUIMyFrame1::currentPic->GetPathFromClick(), JPEG_DEFAULT);
+	int bip = FreeImage_GetBPP(bmp);
+	bitmap_free = FreeImage_Allocate(240, 180, bip);
+	bitmap_free = bmp;
+	FITAG* tag = NULL;
+	FIMETADATA* mdhandle = NULL;
+
+
+	wxString t(IPTC->GetCellValue(0, 0));
+	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "By-lineTitle", t);
+	t=IPTC->GetCellValue(1, 0);
+	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "DateCreated", t);
+	t=IPTC->GetCellValue(2, 0);
+	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "City", t);
+	t=IPTC->GetCellValue(3, 0);
+	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "Country-PrimaryLocationName", t);
+	t=IPTC->GetCellValue(4, 0);
+	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "By-line", t);
+	t=IPTC->GetCellValue(5, 0);
+	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "Keywords", t);
+	FreeImage_Save(FIF_JPEG, bitmap_free, GUIMyFrame1::currentPic->GetPathFromClick(), 0); 
+	
+}
