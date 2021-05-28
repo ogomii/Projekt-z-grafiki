@@ -48,6 +48,7 @@ protected:
 	wxPanel* m_panelFullDisplay;
 	wxGrid* IPTC;
 	wxGrid* EXIF;
+	wxTextCtrl* m_textCtrl1;
 	wxButton* w_IPTC;
 	wxButton* reset;
 	wxButton* A;
