@@ -260,35 +260,7 @@ void GUIMyFrame1::DisplayFolder(wxPanel* parent, wxPanel* display, wxString& pat
 	parent->Show();
 }
 
-void GUIMyFrame1::IPTCReset(wxCommandEvent& event) {
-	for (int i = 0; i < file_count; i++) //
-	{
-		FIBITMAP* bmp;
-		FIBITMAP* bitmap_free;
-		bmp = FreeImage_Load(FIF_JPEG, path_array[i], JPEG_DEFAULT);
-		int bip = FreeImage_GetBPP(bmp);
-		bitmap_free = FreeImage_Allocate(240, 180, bip);
-		bitmap_free = bmp;
-		FITAG* tag = NULL;
-		FIMETADATA* mdhandle = NULL;
 
-		
-		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-lineTitle","");
-		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "DateCreated", "");
-		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "City", "");
-		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "Country-PrimaryLocationName", "");
-		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-line", "");
-		FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "Keywords", "");
-		IPTC->SetCellValue(0, 0, " ");
-		IPTC->SetCellValue(1, 0, " ");
-		IPTC->SetCellValue(2, 0, " ");
-		IPTC->SetCellValue(3, 0, " ");
-		IPTC->SetCellValue(4, 0, " ");
-		IPTC->SetCellValue(5, 0, " ");
-
-		FreeImage_Save(FIF_JPEG, bitmap_free, path_array[i], 0);
-	}
-}
 
 
 wxString GUIMyFrame1::getDataOnBitmap(wxString path)
