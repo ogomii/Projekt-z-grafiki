@@ -165,7 +165,7 @@ class MyButton : public wxBitmapButton
 	friend class GUIMyFrame1;
 	friend class Panel2;
 public:
-
+	MyButton()=default;
 	MyButton(wxFlexGridSizer* fgSizer1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF,wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap, pos)
 	{
 		Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MyButton::OnMouseLeftDown));
