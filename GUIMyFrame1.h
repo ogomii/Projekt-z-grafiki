@@ -193,6 +193,9 @@ private:
 	{
 		GUIMyFrame1::DisplayPic(parent1, path, DisplayPanel, fgSizer);
 	}
+	wxString GetPathFromClick() {
+		return path;
+	}
 };
 
 
