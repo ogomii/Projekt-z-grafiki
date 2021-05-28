@@ -54,6 +54,7 @@ public:
 	static int FDwindow_width; //for FullDisplay panel
 	static int FDwindow_height;
 	static Panel2* currentFullDisplay;
+	static MyButton* currentPic;
 	bool imageLoaded;
 	unsigned char* m_myImage;
 
@@ -92,7 +93,8 @@ protected:
 	void IPTCReset(wxCommandEvent& event);
 	void WriteDataOnPic(wxCommandEvent& event);
 	void GenerateTextOnAll(wxCommandEvent& event);
-
+	void IPTCReset(wxCommandEvent& event);
+	void WriteInIPTCData(wxCommandEvent& event);
 };
 
 
