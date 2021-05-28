@@ -90,7 +90,7 @@ protected:
 	void LoadImgOnClick(wxCommandEvent& event);
 	void WindowSizeChanged(wxSizeEvent& event);
 	void scrollbar_scroll(wxScrollEvent& event);
-	void IPTCReset(wxCommandEvent& event);
+	
 	void WriteDataOnPic(wxCommandEvent& event);
 	void GenerateTextOnAll(wxCommandEvent& event);
 	void IPTCReset(wxCommandEvent& event);
