@@ -177,7 +177,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	reset->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
 	B->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
 	A->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::GenerateTextOnAll), NULL, this);
-
+	w_IPTC->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteInIPTCData), NULL, this);
 }
 
 MyFrame1::~MyFrame1()
@@ -188,4 +188,5 @@ MyFrame1::~MyFrame1()
 	reset->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::IPTCReset), NULL, this);
 	B->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
 	A->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::GenerateTextOnAll), NULL, this);
+	w_IPTC->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteInIPTCData), NULL, this);
 }
