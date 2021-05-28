@@ -188,7 +188,7 @@ private:
 	void OnMouseLeftDown(wxMouseEvent& event)
 	{
 		GUIMyFrame1::DisplayMetaData(EXIF1,IPTC1, parent1, DisplayPanel, path);
-
+		GUIMyFrame1::currentPic = this;
 	}
 
 	void OnMouseDoubleDown(wxMouseEvent& event)
