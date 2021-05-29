@@ -78,7 +78,7 @@ public:
 	wxString getDataOnBitmap(wxString path);
 	//static methods for displaying data
 	static void DisplayPic(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer);
-	static void DisplayMetaData(wxGrid* EXIF,wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path);
+	static void DisplayMetaData(wxGrid* EXIF,wxStaticText* text,wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path);
 	static void DisplayFolder(wxPanel* parent, wxPanel* display, wxString& path);
 	//FreeImage
 	void OnPanelClick(wxMouseEvent& event)
@@ -168,7 +168,7 @@ class MyButton : public wxBitmapButton
 	friend class Panel2;
 public:
 	MyButton()=default;
-	MyButton(wxFlexGridSizer* fgSizer1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF,wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap, pos)
+	MyButton(wxFlexGridSizer* fgSizer1,wxStaticText* textCtrl1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF,wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap, pos)
 	{
 		Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MyButton::OnMouseLeftDown));
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(MyButton::OnMouseDoubleDown));
@@ -178,6 +178,7 @@ public:
 		EXIF1 = EXIF;
 		IPTC1 = IPTC;
 		fgSizer = fgSizer1;
+		text = textCtrl1;
 		DisplayPanel = displaypanel;
 	}
 private:
@@ -187,9 +188,10 @@ private:
 	wxGrid* IPTC1;
 	wxFlexGridSizer* fgSizer;
 	wxPanel* DisplayPanel;
+	wxStaticText* text;
 	void OnMouseLeftDown(wxMouseEvent& event)
 	{
-		GUIMyFrame1::DisplayMetaData(EXIF1,IPTC1, parent1, DisplayPanel, path);
+		GUIMyFrame1::DisplayMetaData(EXIF1,text,IPTC1, parent1, DisplayPanel, path);
 		GUIMyFrame1::currentPic = this;
 	}
 
