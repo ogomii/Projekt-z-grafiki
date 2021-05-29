@@ -96,53 +96,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	
 	bSizer7->Add(bSizer8, 1, wxEXPAND, 5);
 
-	wxBoxSizer* bSizer10;
-	bSizer10 = new wxBoxSizer(wxHORIZONTAL);
-
-	EXIF = new wxGrid(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
-
-	// Grid
-	EXIF->CreateGrid(16, 1);
-	EXIF->EnableEditing(false);
-	EXIF->EnableGridLines(true);
-	EXIF->EnableDragGridSize(false);
-	EXIF->SetMargins(0, 0);
-
-	// Columns
-	EXIF->SetColSize(0, 242);
-	EXIF->EnableDragColMove(false);
-	EXIF->EnableDragColSize(false);
-	EXIF->SetColLabelSize(0);
-	EXIF->SetColLabelValue(0, wxT("Values"));
-	EXIF->SetColLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
-
-	// Rows
-	EXIF->AutoSizeRows();
-	EXIF->EnableDragRowSize(true);
-	EXIF->SetRowLabelSize(130);
-	EXIF->SetRowLabelValue(0, wxT("Camera make"));
-	EXIF->SetRowLabelValue(1, wxT("Camera model"));
-	EXIF->SetRowLabelValue(2, wxT("Date/Time"));
-	EXIF->SetRowLabelValue(3, wxT("Image description"));
-	EXIF->SetRowLabelValue(4, wxT("Orientation"));
-	EXIF->SetRowLabelValue(5, wxT("X resolution [dpi]"));
-	EXIF->SetRowLabelValue(6, wxT("Y resolution [dpi]"));
-	EXIF->SetRowLabelValue(7, wxT("Resolution unit"));
-	EXIF->SetRowLabelValue(8, wxT("Software"));
-	EXIF->SetRowLabelValue(9, wxT("White point"));
-	EXIF->SetRowLabelValue(10, wxT("Primary Chomaticities"));
-	EXIF->SetRowLabelValue(11, wxT("YCbCr Coefficients"));
-	EXIF->SetRowLabelValue(12, wxT("YCbCr Positioning"));
-	EXIF->SetRowLabelValue(13, wxT("Reference BlackWhite"));
-	EXIF->SetRowLabelValue(14, wxT("Copyright"));
-	EXIF->SetRowLabelValue(15, wxT("Exif Offset"));
-	EXIF->SetRowLabelAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
-
-	// Label Appearance
-
-	// Cell Defaults
-	EXIF->SetDefaultCellAlignment(wxALIGN_CENTER, wxALIGN_TOP);
-	bSizer10->Add(EXIF, 0, wxALL, 5);
+	
 
 
 	bSizer7->Add(bSizer10, 1, wxEXPAND, 5);
