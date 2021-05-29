@@ -119,7 +119,7 @@ void GUIMyFrame1::printBitmapButtons() {
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxString path_a = path_array[i];
-			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1,m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
 			fgSizer1->Add(m_bmt1);
 		}
 		m_panel1->SetSizer(fgSizer1);
@@ -142,7 +142,7 @@ void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display, w
 }
 
 
-void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path)
+void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF,wxStaticText* m_textCtrl1, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path)
 {
 	wxClientDC dc(parent);
 	FIBITMAP* bmp;
@@ -155,40 +155,30 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxGrid* IPTC, wxPanel* parent, w
 	FIMETADATA* mdhandle = NULL;
 
 	wxString Label;
+	wxString Label1;
 	int i = 0;
-	int z = 0;
+	
 	mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
-
+	Label1 = Label1 + "EXIF Info:\n";
 	if (mdhandle)
 	{
-		z = 1;
 		do
 		{
 			const char* value = FreeImage_TagToString(FIMD_EXIF_MAIN, tag);
 
 			if (FreeImage_GetTagValue(tag))
 			{
-				Label = value;
-				EXIF->SetCellValue(i, 0, Label);
+				Label1=Label1+ FreeImage_GetTagKey(tag) + ": " + value + "\n";
+				//EXIF->SetCellValue(i, 0, Label);
 				i++;
 			}
 
-		} while (FreeImage_FindNextMetadata(mdhandle, &tag) && i < 16);
+		} while (FreeImage_FindNextMetadata(mdhandle, &tag));
 
 		FreeImage_FindCloseMetadata(mdhandle);
 	}
-
-
-	if (!z) {
-		for (int k = 0; k < 16; k++) {
-			EXIF->SetCellValue(k, 0, "");
-		}
-	}
-
-
-	//INSERTING META DATA
-	//FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "By-lineTitle", "]]]]]]]]]");							//IMPORTANT - how to insert metadata into jpeg!!!!!!!
-	//FreeImage_Save(FIF_JPEG, bitmap_free, path, 0);
+	m_textCtrl1->SetLabel(Label1);
+	
 
 
 	tag = NULL;
