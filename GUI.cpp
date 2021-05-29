@@ -99,7 +99,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	
 
 
-	bSizer7->Add(bSizer10, 1, wxEXPAND, 5);
+	
 
 
 	bSizer4->Add(bSizer7, 1, wxEXPAND, 5);
