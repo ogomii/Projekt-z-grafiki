@@ -64,7 +64,7 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 		wxString path = dialog.GetPath();
 		wxDir dir(dialog.GetPath());
 
-		dir.GetAllFiles(dialog.GetPath(), &path_array, wxEmptyString, wxDIR_FILES);
+		dir.GetAllFiles(dialog.GetPath(), &path_array, "*.jpg", wxDIR_FILES);
 		file_count = path_array.GetCount();
 		imageLoaded = true;
 
@@ -93,12 +93,12 @@ void GUIMyFrame1::loadBitmaps()
 	{
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
+
 			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
 			imag.Rescale(240, 180, wxIMAGE_QUALITY_NEAREST);
 
 			wxBitmap bmpt1(imag, -1);
 			bitmapVector.push_back(bmpt1);
-
 		}
 		dc.Clear();
 		printBitmapButtons();
@@ -111,10 +111,11 @@ void GUIMyFrame1::printBitmapButtons() {
 	{
 		int rows = 1;
 		int cols = (window_width - 40) / 240;
+		//int hgap = m_panel1->GetSize().GetWidth() - cols*240 / 2;
 		if (cols != 0) rows = file_count / cols + 1;
 		if (fgSizer1) fgSizer1->Clear(true);
 		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 0);
-
+		fgSizer1->SetFlexibleDirection(wxBOTH);
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxString path_a = path_array[i];
@@ -287,7 +288,8 @@ wxString GUIMyFrame1::getDataOnBitmap(wxString path)
 			if (FreeImage_GetTagValue(tag))
 			{
 				Label = value;
-				dataOnBitmap += Label + "\n";
+				dataOnBitmap += FreeImage_GetTagKey(tag);
+				dataOnBitmap += ": " + Label + "\n";
 				i++;
 			}
 
@@ -300,29 +302,30 @@ wxString GUIMyFrame1::getDataOnBitmap(wxString path)
 
 void GUIMyFrame1::WriteDataOnPic(wxCommandEvent& event)
 {
-	if (!m_panelFullDisplay->IsShown())
+	wxString currPath = currentPic->GetPathFromClick();
+	if (currPath == "")
 	{
-		wxMessageBox(_("No image opened"));
+		wxMessageBox("No file chosen");
 		return;
 	}
-	wxString currPath = currentFullDisplay->getPath();
 	wxImage im = wxImage(currPath, wxBITMAP_TYPE_ANY, -1);
 	wxBitmap b1(im, -1);
 	wxMemoryDC mem(b1);
 
 	wxString dataOnBitmap = getDataOnBitmap(currPath);
+	mem.SetFont(wxFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_BOLD, false));
 	mem.DrawText(dataOnBitmap, wxPoint(0, 0));
 
 	const wxImage image = b1.ConvertToImage();
 	wxInitAllImageHandlers();
-	wxFileDialog saveFileDialog(this, _("Save PNG file"), "", "",
-		"PNG files (*.png)|*.png", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	wxFileDialog saveFileDialog(this, _("Save JPG file"), "", "",
+		"JPG files (*.jpg)|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	if (saveFileDialog.ShowModal() == wxID_OK)
 	{
 		wxFileName my_file(saveFileDialog.GetPath());
 		wxString my_file_ext = my_file.GetExt().Lower();
 
-		if (my_file_ext == wxT("png")) image.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_PNG);
+		if (my_file_ext == wxT("jpg")) image.SaveFile(saveFileDialog.GetPath(), wxBITMAP_TYPE_JPEG);
 
 		else wxMessageBox(wxT("Extension ERROR"), wxT("ERROR"));
 	}
@@ -336,25 +339,25 @@ void GUIMyFrame1::GenerateTextOnAll(wxCommandEvent& event)
 		wxMessageBox(wxT("No files to write"));
 		return;
 	}
-	wxFileDialog saveFileDialog(this, _("Save PNG file"), "", "",
-		"PNG files (*.png)|*.png", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	wxFileDialog saveFileDialog(this, _("Save JPG file"), "", "",
+		"JPG files (*.jpg)|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	if (saveFileDialog.ShowModal() == wxID_OK)
 	{
 		wxFileName my_file(saveFileDialog.GetPath());
 		wxString my_file_ext = my_file.GetExt().Lower();
-		if (!(my_file_ext == wxT("png"))) return;
+		if (!(my_file_ext == wxT("jpg"))) return;
 	}
 	wxString dataOnBitmap = "";
 	for (int i = 0; i < file_count; i++)
 	{
-		wxString fileName = saveFileDialog.GetPath().erase(saveFileDialog.GetPath().Length() - 4) + wxString::Format(wxT("%i"), i) + wxString(".png");
+		wxString fileName = saveFileDialog.GetPath().erase(saveFileDialog.GetPath().Length() - 4) + wxString::Format(wxT("%i"), i) + wxString(".jpg");
 		dataOnBitmap = getDataOnBitmap(path_array[i]);
 		wxImage im = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
 		wxBitmap b1(im, -1);
 		wxMemoryDC mem(b1);
 		mem.DrawText(dataOnBitmap, wxPoint(0, 0));
 		const wxImage image = b1.ConvertToImage();
-		image.SaveFile(fileName, wxBITMAP_TYPE_PNG);
+		image.SaveFile(fileName, wxBITMAP_TYPE_JPEG);
 	}
 }
 
@@ -431,4 +434,61 @@ void GUIMyFrame1::WriteInIPTCData(wxCommandEvent& event) {
 	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bmp, "Keywords", t);
 	FreeImage_Save(FIF_JPEG, bitmap_free, GUIMyFrame1::currentPic->GetPathFromClick(), 0);
 
+}
+
+
+void GUIMyFrame1::WriteDataToFile(wxCommandEvent& event)
+{
+	if (path_array.empty())
+	{
+		wxMessageBox(wxT("No files to pull data from"));
+		return;
+	}
+	wxFileDialog saveFileDialog(this, _("Save txt file"), "", "",
+		"TXT files (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (saveFileDialog.ShowModal() == wxID_OK)
+	{
+		wxFileName my_file(saveFileDialog.GetPath());
+		wxString my_file_ext = my_file.GetExt().Lower();
+		if (!(my_file_ext == wxT("txt"))) return;
+	}
+	wxString fileName = saveFileDialog.GetPath();
+	std::ofstream file;
+	file.open((fileName.mbc_str()));
+	FIBITMAP* bmp;
+	FIBITMAP* bitmap_free;
+	FITAG* tag = NULL;
+	FIMETADATA* mdhandle = NULL;
+	wxString Label;
+	for (int i = 0; i < file_count; i++)
+	{
+		bmp = FreeImage_Load(FIF_JPEG, path_array[i], JPEG_DEFAULT);
+		int bip = FreeImage_GetBPP(bmp);
+		bitmap_free = FreeImage_Allocate(240, 180, bip);
+		bitmap_free = bmp;
+		file << path_array[i] << "\n";
+		file << "Rozmiar obrazka: " + std::to_string(bitmapVector[i].GetWidth()) + "*" + std::to_string(bitmapVector[i].GetWidth()) + "\n";
+		int j = 0;
+		mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
+		
+		if (mdhandle)
+		{
+			do
+			{
+				const char* value = FreeImage_TagToString(FIMD_EXIF_MAIN, tag);
+
+				if (FreeImage_GetTagValue(tag))
+				{
+					Label = value;
+					file << FreeImage_GetTagKey(tag) << ": " << Label << "\n";
+					i++;
+				}
+
+			} while (FreeImage_FindNextMetadata(mdhandle, &tag) && j < 5);
+
+			FreeImage_FindCloseMetadata(mdhandle);
+		}
+		file << "\n\n";
+	}
+	file.close();
 }

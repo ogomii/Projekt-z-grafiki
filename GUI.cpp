@@ -157,11 +157,14 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	w_IPTC = new wxButton(this, wxID_ANY, wxT("Zapisz IPTC"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(w_IPTC, 0, wxALIGN_CENTER | wxALL, 5);
 
-	A = new wxButton(this, wxID_ANY, wxT("Zapisz tekst wszêdzie"), wxDefaultPosition, wxSize(130, -1), 0);
+	A = new wxButton(this, wxID_ANY, wxT("Zapisz tekst wszedzie"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(A, 0, wxALIGN_CENTER | wxALL, 5);
 
 	B = new wxButton(this, wxID_ANY, wxT("Zapisz tekst"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(B, 0, wxALIGN_CENTER | wxALL, 5);
+
+	E = new wxButton(this, wxID_ANY, wxT("Zapisz dane"), wxDefaultPosition, wxSize(130, -1), 0);
+	bSizer9->Add(E, 0, wxALIGN_CENTER | wxALL, 5);
 
 	D = new wxButton(this, wxID_ANY, wxT("Wczytaj folder"), wxDefaultPosition, wxSize(130, -1), 0);
 	bSizer9->Add(D, 0, wxALIGN_CENTER | wxALL, 5);
@@ -185,6 +188,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	B->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
 	A->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::GenerateTextOnAll), NULL, this);
 	w_IPTC->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteInIPTCData), NULL, this);
+	E->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataToFile), NULL, this);
 }
 
 MyFrame1::~MyFrame1()
@@ -196,4 +200,5 @@ MyFrame1::~MyFrame1()
 	B->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataOnPic), NULL, this);
 	A->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::GenerateTextOnAll), NULL, this);
 	w_IPTC->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteInIPTCData), NULL, this);
+	E->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::WriteDataToFile), NULL, this);
 }

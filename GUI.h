@@ -54,7 +54,7 @@ protected:
 	wxButton* A;
 	wxButton* B;
 	wxButton* D;
-
+	wxButton* E;
 
 	// Virtual event handlers, overide them in your derived class
 	virtual void window_update(wxUpdateUIEvent& event) { event.Skip(); }
@@ -63,6 +63,7 @@ protected:
 	virtual void WriteDataOnPic(wxCommandEvent& event) { event.Skip(); }
 	virtual void GenerateTextOnAll(wxCommandEvent& event) { event.Skip(); }
 	virtual void WriteInIPTCData(wxCommandEvent& event) { event.Skip(); }
+	virtual void WriteDataToFile(wxCommandEvent& event) { event.Skip(); }
 
 public:
 
