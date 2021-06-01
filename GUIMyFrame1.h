@@ -77,9 +77,9 @@ public:
 	void loadBitmaps();
 	wxString getDataOnBitmap(wxString path);
 	//static methods for displaying data
-	static void DisplayPic(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer);
-	static void DisplayMetaData(wxGrid* EXIF,wxStaticText* text,wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path);
-	static void DisplayFolder(wxPanel* parent, wxPanel* display, wxString& path);
+	static void DisplayPic(wxPanel* parent, wxString path, wxPanel* display);
+	static void DisplayMetaData(wxGrid* EXIF, wxStaticText* text, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path);
+	static void DisplayFolder(wxPanel* parent, wxPanel* display);
 	//FreeImage
 	void OnPanelClick(wxMouseEvent& event)
 	{
@@ -91,7 +91,7 @@ protected:
 	void LoadImgOnClick(wxCommandEvent& event);
 	void WindowSizeChanged(wxSizeEvent& event);
 	void scrollbar_scroll(wxScrollEvent& event);
-	
+
 	void WriteDataOnPic(wxCommandEvent& event);
 	void GenerateTextOnAll(wxCommandEvent& event);
 	void IPTCReset(wxCommandEvent& event);
@@ -101,9 +101,9 @@ protected:
 
 
 class PanelBOX :public wxPanel {
-public: 
+public:
 	PanelBOX(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxPanelNameStr) {
-		t = new wxStaticText(this, wxID_ANY,_("LOADING IMAGES"));
+		t = new wxStaticText(this, wxID_ANY, _("LOADING IMAGES"));
 	}
 private:
 	wxStaticText* t;
@@ -115,7 +115,7 @@ class Panel2 : public wxPanel {
 	friend class MyCanvas;
 public:
 	Panel2() = default;
-	Panel2(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer, const wxSize& pos = wxDefaultSize) :wxPanel(display, -1, wxPoint(0, 0), pos), _parent(parent), _path(path), _DisplayPanel(display), _fgSizer(fgSizer)
+	Panel2(wxPanel* parent, wxString path, wxPanel* display, const wxSize& pos = wxDefaultSize) :wxPanel(display, -1, wxPoint(0, 0), pos), _parent(parent), _path(path), _DisplayPanel(display)
 	{
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(Panel2::OnPanelDoubleDown));
 		display->Show();
@@ -125,12 +125,11 @@ private:
 	wxPanel* _parent;
 	wxString _path;
 	wxPanel* _DisplayPanel;
-	wxFlexGridSizer* _fgSizer;
 	wxString getPath() const { return _path; }
 
 	void OnPanelDoubleDown(wxMouseEvent& event)
 	{
-		GUIMyFrame1::DisplayFolder(_parent, _DisplayPanel, _path);
+		GUIMyFrame1::DisplayFolder(_parent, _DisplayPanel);
 	}
 	void PaintFD()
 	{
@@ -155,7 +154,7 @@ private:
 		wxBitmap b1(im, -1);
 		this->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
 		_parent->SetSize(_DisplayPanel->GetSize().GetWidth(), _DisplayPanel->GetSize().GetHeight());
-		
+
 		wxClientDC dc(this);
 		dc.Clear();
 		dc.DrawBitmap(b1, (w - im.GetWidth()) / 2, (h - im.GetHeight()) / 2, false);
@@ -167,8 +166,8 @@ class MyButton : public wxBitmapButton
 	friend class GUIMyFrame1;
 	friend class Panel2;
 public:
-	MyButton()=default;
-	MyButton(wxFlexGridSizer* fgSizer1,wxStaticText* textCtrl1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF,wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap, pos)
+	MyButton() = default;
+	MyButton(wxFlexGridSizer* fgSizer1, wxStaticText* textCtrl1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF, wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap, pos)
 	{
 		Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MyButton::OnMouseLeftDown));
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(MyButton::OnMouseDoubleDown));
@@ -191,13 +190,13 @@ private:
 	wxStaticText* text;
 	void OnMouseLeftDown(wxMouseEvent& event)
 	{
-		GUIMyFrame1::DisplayMetaData(EXIF1,text,IPTC1, parent1, DisplayPanel, path);
+		GUIMyFrame1::DisplayMetaData(EXIF1, text, IPTC1, parent1, DisplayPanel, path);
 		GUIMyFrame1::currentPic = this;
 	}
 
 	void OnMouseDoubleDown(wxMouseEvent& event)
 	{
-		GUIMyFrame1::DisplayPic(parent1, path, DisplayPanel, fgSizer);
+		GUIMyFrame1::DisplayPic(parent1, path, DisplayPanel);
 	}
 	wxString GetPathFromClick() {
 		return path;
