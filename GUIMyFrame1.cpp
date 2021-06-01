@@ -54,7 +54,7 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 	path_array.Clear();
 	imageLoaded = false;
 	changedirectoryclickevent = 0;
-	//if (fgSizer1) fgSizer1->Clear(true);
+	if (fgSizer1) fgSizer1->Clear(true);
 	fgSizer1 = nullptr;
 	bitmapVector.clear();
 	file_count = 0;
@@ -119,7 +119,7 @@ void GUIMyFrame1::printBitmapButtons() {
 		for (int i = 0; i < file_count; i++) //load images to vector
 		{
 			wxString path_a = path_array[i];
-			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1,m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
 			fgSizer1->Add(m_bmt1);
 		}
 		m_panel1->SetSizer(fgSizer1);
@@ -129,20 +129,18 @@ void GUIMyFrame1::printBitmapButtons() {
 }
 
 
-void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display, wxFlexGridSizer* fgSizer)
+void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display)
 {
-	wxClientDC dc(display);
 	parent->Hide();
 	int w = parent->GetSize().GetWidth();			//DO NOT DELETE!
 	int h = parent->GetSize().GetHeight();
 	display->SetSize(w, h);
-	//display->Show();
-	currentFullDisplay = new Panel2(parent, path, display, fgSizer, wxSize(w, h));
+	currentFullDisplay = new Panel2(parent, path, display, wxSize(w, h));
 
 }
 
 
-void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF,wxStaticText* m_textCtrl1, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path)
+void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxStaticText* m_textCtrl1, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path)
 {
 	wxClientDC dc(parent);
 	FIBITMAP* bmp;
@@ -157,7 +155,7 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF,wxStaticText* m_textCtrl1, wxGrid
 	wxString Label;
 	wxString Label1;
 	int i = 0;
-	
+
 	mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
 	Label1 = Label1 + "EXIF Info:\n";
 	if (mdhandle)
@@ -168,7 +166,7 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF,wxStaticText* m_textCtrl1, wxGrid
 
 			if (FreeImage_GetTagValue(tag))
 			{
-				Label1=Label1+ FreeImage_GetTagKey(tag) + ": " + value + "\n";
+				Label1 = Label1 + FreeImage_GetTagKey(tag) + ": " + value + "\n";
 				//EXIF->SetCellValue(i, 0, Label);
 				i++;
 			}
@@ -178,7 +176,7 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF,wxStaticText* m_textCtrl1, wxGrid
 		FreeImage_FindCloseMetadata(mdhandle);
 	}
 	m_textCtrl1->SetLabel(Label1);
-	
+
 
 
 	tag = NULL;
@@ -246,7 +244,7 @@ void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF,wxStaticText* m_textCtrl1, wxGrid
 
 }
 
-void GUIMyFrame1::DisplayFolder(wxPanel* parent, wxPanel* display, wxString& path)
+void GUIMyFrame1::DisplayFolder(wxPanel* parent, wxPanel* display)
 {
 	display->Hide();
 	parent->Show();
@@ -460,7 +458,7 @@ void GUIMyFrame1::WriteDataToFile(wxCommandEvent& event)
 		file << "Rozmiar obrazka: " + std::to_string(bitmapVector[i].GetWidth()) + "*" + std::to_string(bitmapVector[i].GetWidth()) + "\n";
 		int j = 0;
 		mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
-		
+
 		if (mdhandle)
 		{
 			do
