@@ -67,9 +67,6 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 		dir.GetAllFiles(dialog.GetPath(), &path_array, "*.jpg", wxDIR_FILES);
 		file_count = path_array.GetCount();
 		imageLoaded = true;
-
-
-		//wxMessageBox(_("LOADING FIELS>>>"));
 		loadBitmaps();
 		changedirectoryclickevent = 1;
 	}
@@ -86,7 +83,7 @@ void GUIMyFrame1::loadBitmaps()
 	dc.SetPen(*wxBLACK_PEN);
 	wxString text = "LOADING IMAGES...";
 	dc.SetFont(wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Calibri"));
-	dc.DrawText(text, wxPoint(dc.GetSize().GetWidth() / 2 - 150, dc.GetSize().GetHeight() / 2));
+	dc.DrawText(text, wxPoint(dc.GetSize().GetWidth() / 2 - 115, dc.GetSize().GetHeight() / 2));
 
 
 	if (file_count > 0)
