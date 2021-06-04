@@ -111,12 +111,11 @@ void GUIMyFrame1::printBitmapButtons() {
 	{
 		int rows = 1;
 		int cols = (window_width - 40) / 240;
-		//int hgap = m_panel1->GetSize().GetWidth() - cols*240 / 2;
 		if (cols != 0) rows = file_count / cols + 1;
 		if (fgSizer1) fgSizer1->Clear(true);
 		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 0);
 		fgSizer1->SetFlexibleDirection(wxBOTH);
-		for (int i = 0; i < file_count; i++) //load images to vector
+		for (int i = 0; i < file_count; i++) 
 		{
 			wxString path_a = path_array[i];
 			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
@@ -132,7 +131,7 @@ void GUIMyFrame1::printBitmapButtons() {
 void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display)
 {
 	parent->Hide();
-	int w = parent->GetSize().GetWidth();			//DO NOT DELETE!
+	int w = parent->GetSize().GetWidth();			
 	int h = parent->GetSize().GetHeight();
 	display->SetSize(w, h);
 	currentFullDisplay = new Panel2(parent, path, display, wxSize(w, h));
@@ -142,7 +141,6 @@ void GUIMyFrame1::DisplayPic(wxPanel* parent, wxString path, wxPanel* display)
 
 void GUIMyFrame1::DisplayMetaData(wxGrid* EXIF, wxStaticText* m_textCtrl1, wxGrid* IPTC, wxPanel* parent, wxPanel* display, wxString path)
 {
-	wxClientDC dc(parent);
 	FIBITMAP* bmp;
 	FIBITMAP* bitmap_free;
 	bmp = FreeImage_Load(FIF_JPEG, path, JPEG_DEFAULT);
@@ -358,27 +356,6 @@ void GUIMyFrame1::IPTCReset(wxCommandEvent& event) {
 	bitmap_free = bmp;
 	FITAG* tag = NULL;
 	FIMETADATA* mdhandle = NULL;
-
-
-	//----------------------------------------------
-			/*int k = 0;
-			mdhandle = FreeImage_FindFirstMetadata(FIMD_EXIF_MAIN, bitmap_free, &tag);
-			if (mdhandle)
-			{
-				do
-				{
-					const char* value = FreeImage_TagToString(FIMD_EXIF_MAIN, tag);
-					if (FreeImage_GetTagValue(tag))
-					{
-						//FreeImage_SetMetadataKeyValue(FIMD_EXIF_MAIN, bitmap_free, FreeImage, "");
-						EXIF->SetCellValue(i, 0, " ");
-						k++;
-					}
-				} while (FreeImage_FindNextMetadata(mdhandle, &tag) && k < 16);
-				FreeImage_FindCloseMetadata(mdhandle);
-			}*/
-			//-------------------------------------------------
-					//const char *
 	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "By-lineTitle", "");
 	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "DateCreated", "");
 	FreeImage_SetMetadataKeyValue(FIMD_IPTC, bitmap_free, "City", "");
