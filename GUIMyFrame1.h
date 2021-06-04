@@ -60,18 +60,14 @@ public:
 	unsigned char* m_myImage;
 
 	wxFlexGridSizer* fgSizer1;
-	//// end generated class members
 	int panel_width;
 	int panel_height;
-	//two vectors - not necessary in final version
 	std::vector<wxBitmap> bitmap;
-	std::vector<wxBitmapButton> bu;
 	wxBitmapButton m_bmt;
 	wxBitmap* bmpt;
 	wxImage* image;
 	wxImage sourceImage;
 	int changedirectoryclickevent = 0;
-	int changedwindowsize = 0;
 	std::vector<wxBitmap> bitmapVector;
 	void printBitmapButtons();
 	void loadBitmaps();
@@ -171,7 +167,6 @@ public:
 	{
 		Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MyButton::OnMouseLeftDown));
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(MyButton::OnMouseDoubleDown));
-		//Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(MyButton::OnMouseLeftUp)); //need double-click action
 		path = path_array;
 		parent1 = parent;
 		EXIF1 = EXIF;
