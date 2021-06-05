@@ -47,26 +47,16 @@ public:
 	wxBitmap m_imageBitmap;
 	int window_width;
 	int window_height;
-	int m_imageWidth;
-	int m_imageHeight;
-	int m_fullImagesWidth;
-	int m_fullImagesHeight;
-	static int FDwindow_width; //for FullDisplay panel
+	static int FDwindow_width; 
 	static int FDwindow_height;
 	static Panel2* currentFullDisplay;
 	static MyButton* currentPic;
-	bool imageLoaded;
-	unsigned char* m_myImage;
 
 	wxFlexGridSizer* fgSizer1;
-	int panel_width;
-	int panel_height;
 	std::vector<wxBitmap> bitmap;
 	wxBitmapButton m_bmt;
 	wxBitmap* bmpt;
 	wxImage* image;
-	wxImage sourceImage;
-	int changedirectoryclickevent = 0;
 	std::vector<wxBitmap> bitmapVector;
 	void printBitmapButtons();
 	void loadBitmaps();
@@ -161,7 +151,7 @@ class MyButton : public wxBitmapButton
 	friend class Panel2;
 public:
 	MyButton() = default;
-	MyButton(wxFlexGridSizer* fgSizer1, wxStaticText* textCtrl1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF, wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap, pos)
+	MyButton(wxFlexGridSizer* fgSizer1, wxStaticText* textCtrl1, wxPanel* parent, wxPanel* displaypanel, wxGrid* EXIF, wxGrid* IPTC, wxWindowID id, const wxBitmap& bitmap, wxString path_array = 'a') : wxBitmapButton(parent, -1, bitmap)
 	{
 		Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MyButton::OnMouseLeftDown));
 		Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(MyButton::OnMouseDoubleDown));

@@ -4,7 +4,6 @@ GUIMyFrame1::GUIMyFrame1(wxWindow* parent)
 	:
 	MyFrame1(parent)
 {
-	m_myImage = NULL;
 	file_count = 0;
 	fgSizer1 = new wxFlexGridSizer(1, 0, 0, 0);
 }
@@ -42,8 +41,6 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 {
 
 	path_array.Clear();
-	imageLoaded = false;
-	changedirectoryclickevent = 0;
 	if (fgSizer1) fgSizer1->Clear(true);
 	fgSizer1 = nullptr;
 	bitmapVector.clear();
@@ -56,9 +53,7 @@ void GUIMyFrame1::LoadImgOnClick(wxCommandEvent& event)
 
 		dir.GetAllFiles(dialog.GetPath(), &path_array, "*.jpg", wxDIR_FILES);
 		file_count = path_array.GetCount();
-		imageLoaded = true;
 		loadBitmaps();
-		changedirectoryclickevent = 1;
 	}
 	else {
 		wxMessageBox(_("Cannot open a directory"));
@@ -105,7 +100,7 @@ void GUIMyFrame1::printBitmapButtons() {
 		for (int i = 0; i < file_count; i++) 
 		{
 			wxString path_a = path_array[i];
-			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], wxPoint(m_fullImagesHeight, m_fullImagesWidth), path_a);
+			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], path_a);
 			fgSizer1->Add(m_bmt1);
 		}
 		m_panel1->SetSizer(fgSizer1);
