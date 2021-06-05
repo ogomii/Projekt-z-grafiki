@@ -14,18 +14,8 @@ int GUIMyFrame1::FDwindow_width = 700;
 int GUIMyFrame1::FDwindow_height = 1200;
 MyButton* GUIMyFrame1::currentPic = new MyButton();
 
-void GUIMyFrame1::WindowSizeChanged(wxSizeEvent& event)
-{
-	window_width = event.GetSize().GetWidth();
-	window_height = event.GetSize().GetHeight();
-	//changedwindowsize = 1;
-	//repaint();
-}
-
 void GUIMyFrame1::window_update(wxUpdateUIEvent& event)
 {
-	//changedwindowsize = 0;
-	//repaint();
 	if (m_panel1->IsShown())
 	{
 		if (window_width != m_panel1->GetSize().GetWidth() || window_height != m_panel1->GetSize().GetHeight())
@@ -88,7 +78,7 @@ void GUIMyFrame1::loadBitmaps()
 
 	if (file_count > 0)
 	{
-		for (int i = 0; i < file_count; i++) //load images to vector
+		for (int i = 0; i < file_count; i++) 
 		{
 
 			wxImage imag = wxImage(path_array[i], wxBITMAP_TYPE_ANY, -1);
@@ -425,7 +415,7 @@ void GUIMyFrame1::WriteDataToFile(wxCommandEvent& event)
 	for (int i = 0; i < file_count; i++)
 	{
 		bmp = FreeImage_Load(FIF_JPEG, path_array[i], JPEG_DEFAULT);
-		int bip = FreeImage_GetBPP(bmp);
+		int bip = FreeImage_GetBPP(bmp);	
 		bitmap_free = FreeImage_Allocate(240, 180, bip);
 		bitmap_free = bmp;
 		file << path_array[i] << "\n";
@@ -443,7 +433,7 @@ void GUIMyFrame1::WriteDataToFile(wxCommandEvent& event)
 				{
 					Label = value;
 					file << FreeImage_GetTagKey(tag) << ": " << Label << "\n";
-					i++;
+					j++;
 				}
 
 			} while (FreeImage_FindNextMetadata(mdhandle, &tag) && j < 5);

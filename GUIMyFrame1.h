@@ -49,7 +49,6 @@ public:
 	int window_height;
 	int m_imageWidth;
 	int m_imageHeight;
-	int m_imageCounter;
 	int m_fullImagesWidth;
 	int m_fullImagesHeight;
 	static int FDwindow_width; //for FullDisplay panel
@@ -85,7 +84,6 @@ protected:
 
 	void window_update(wxUpdateUIEvent& event);
 	void LoadImgOnClick(wxCommandEvent& event);
-	void WindowSizeChanged(wxSizeEvent& event);
 	void scrollbar_scroll(wxScrollEvent& event);
 
 	void WriteDataOnPic(wxCommandEvent& event);
