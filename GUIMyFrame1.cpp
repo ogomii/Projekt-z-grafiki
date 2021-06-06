@@ -317,6 +317,11 @@ void GUIMyFrame1::GenerateTextOnAll(wxCommandEvent& event)
 		wxString my_file_ext = my_file.GetExt().Lower();
 		if (!(my_file_ext == wxT("jpg"))) return;
 	}
+	else
+	{
+		wxMessageBox(wxT("No location chosen"));
+		return;
+	}
 	wxString dataOnBitmap = "";
 	for (int i = 0; i < file_count; i++)
 	{
