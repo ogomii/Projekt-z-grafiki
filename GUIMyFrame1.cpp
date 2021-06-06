@@ -92,18 +92,20 @@ void GUIMyFrame1::printBitmapButtons() {
 	if (file_count > 0)
 	{
 		int rows = 1;
-		int cols = (window_width - 40) / 240;
+		int cols = (window_width - 35) / 240;
 		if (cols != 0) rows = file_count / cols + 1;
 		if (fgSizer1) fgSizer1->Clear(true);
-		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 0);
+		fgSizer1 = new wxFlexGridSizer(rows, cols, 0, 10);
 		fgSizer1->SetFlexibleDirection(wxBOTH);
+		masterSizer = new wxBoxSizer(wxVERTICAL);
+		masterSizer->Add(fgSizer1, wxSizerFlags().Border(wxLEFT, (window_width - 35 - 10*(cols-1) - cols*240)/2));
 		for (int i = 0; i < file_count; i++) 
 		{
 			wxString path_a = path_array[i];
 			wxBitmapButton* m_bmt1 = new MyButton(fgSizer1, m_textCtrl1, m_panel1, m_panelFullDisplay, EXIF, IPTC, -1, bitmapVector[i], path_a);
 			fgSizer1->Add(m_bmt1);
 		}
-		m_panel1->SetSizer(fgSizer1);
+		m_panel1->SetSizer(masterSizer);
 		m_panel1->FitInside();
 		m_panel1->SetScrollRate(25, 25);
 	}

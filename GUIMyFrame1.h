@@ -52,6 +52,7 @@ public:
 	static Panel2* currentFullDisplay;
 	static MyButton* currentPic;
 
+	wxBoxSizer* masterSizer;
 	wxFlexGridSizer* fgSizer1;
 	std::vector<wxBitmap> bitmap;
 	wxBitmapButton m_bmt;
